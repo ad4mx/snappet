@@ -2,6 +2,7 @@
 import { Command } from 'commander';
 import fs from 'fs';
 import path from 'path';
+import { bold, red } from 'colorette';
 const cli = new Command();
 
 cli
@@ -42,9 +43,9 @@ cli
   .action((name: string, filepaths: string[]) => {
     const configs = loadSnapshots();
     if (configs.some((file: Config) => file.name === name)) {
-          console.error(`A snapshot with the name '${name}' already exists.`)
-          return process.exit(1);
-        }
+      console.error(red(`A snapshot with the name '${name}' already exists.`));
+      return process.exit(1);
+    }
     for (let filepath of filepaths) {
       const content = fs.readFileSync(filepath, 'utf-8');
       const newFile: Config = { name, data: content, path: path.resolve(filepath) };
@@ -52,7 +53,7 @@ cli
     }
 
     saveSnapshots(configs);
-    console.log(`Snapshots added`);
+    console.log(bold(`Snapshot ${name} successfully added`));
     return process.exit(0);
   });
 
@@ -63,12 +64,12 @@ cli
     const configs = loadSnapshots();
 
     if (configs.length === 0) {
-      console.log("Configurations:");
+      console.log(bold("Saved snapshots:"));
       console.log("  You currently have no saved snapshots");
       return process.exit(0);
     }
 
-    console.log("Configurations:");
+    console.log(bold("Saved snapshots:"));
     for (let config of configs) {
       console.log(" -" + config.name + `: ${config.path}`)
     }
@@ -83,17 +84,13 @@ cli
     const matchingConfigs = configs.filter(config => config.name === name);
 
     if (matchingConfigs.length === 0) {
-      console.error(`Snapshot "${name}" not found`);
+      console.error(red(`Snapshot "${name}" not found`));
       return process.exit(1);
     }
 
     const newConfigs = configs.filter(config => config.name !== name);
     saveSnapshots(newConfigs);
-
-    for (let config of matchingConfigs) {
-      console.log(`Removed "${config.path}" from snapshot "${name}"`);
-    }
-
+    console.log(bold(`Snapshot ${name} was removed`));
     return process.exit(0);
   });
 
@@ -105,15 +102,20 @@ cli
     const matchingConfigs = configs.filter(config => config.name === name);
 
     if (matchingConfigs.length === 0) {
-      console.error(`Snapshot "${name}" not found`);
+      console.error(red(`Snapshot "${name}" not found`));
       return process.exit(1);
     }
 
     for (let config of matchingConfigs) {
       fs.writeFileSync(config.path, config.data);
-      console.log(`File "${config.path}" switched to snapshot "${name}"`);
     }
+    console.log(`${bold(`Switched to snapshot ${name}`)}\n${bold('Files affected:')}`);
+    for (const config of matchingConfigs) {
+        console.log(`  - ${config.path}`);
+    }
+    console.log('');
     return process.exit(0);
+
   })
 
 cli.parse()
