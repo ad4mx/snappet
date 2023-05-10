@@ -1,0 +1,22 @@
+{
+  "name": "snappet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@types/commander": "^2.12.2",
+    "@types/node": "^18.16.3",
+    "commander": "^10.0.1"
+  }
+}
