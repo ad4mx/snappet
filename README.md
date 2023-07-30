@@ -1,2 +1,3 @@
 # Snappet
-> do stuff
+> store, manage and switch between your config files easily
+
