@@ -2,9 +2,11 @@
 import { Command } from 'commander';
 import fs from 'fs';
 import path from 'path';
-import { bold, red } from 'colorette';
+import { bold, red, underline } from 'colorette';
 const cli = new Command();
-
+// TODO: github readme - show switching themes
+// TODO: publish to npm as npx
+// TODO: all of these release shenenigans
 cli
   .name('snappet')
   .version('0.1.0')
@@ -14,9 +16,11 @@ cli
 type Config = {
   name: string,
   data: string,
-  path: string
+  path: string,
+  active: boolean
 };
 
+// resolving the path for easy access later
 const SNAPSHOT_FILE = path.resolve(__dirname, '../snapshots.json')
 
 function loadSnapshots(): Config[] {
@@ -33,7 +37,7 @@ function loadSnapshots(): Config[] {
   }
 }
 
-function saveSnapshots(configs: Config[]): void {
+function saveSnapshots(configs: Config[]) {
   fs.writeFileSync(SNAPSHOT_FILE, JSON.stringify(configs, null, 2));
 }
 
@@ -46,12 +50,22 @@ cli
       console.error(red(`A snapshot with the name '${name}' already exists.`));
       return process.exit(1);
     }
-    for (let filepath of filepaths) {
-      const content = fs.readFileSync(filepath, 'utf-8');
-      const newFile: Config = { name, data: content, path: path.resolve(filepath) };
-      configs.push(newFile);
-    }
 
+    for (const config of configs) {
+      config.active = false;
+    }
+    
+    try {
+        for (let filepath of filepaths) {
+        const content = fs.readFileSync(filepath, 'utf-8');
+        const newFile: Config = { name, data: content, path: path.resolve(filepath), active: true };
+        configs.push(newFile);
+      }
+    } catch {
+      console.error(red("A file couldn't be found."))
+      return process.exit(1)
+    }
+    
     saveSnapshots(configs);
     console.log(bold(`Snapshot ${name} successfully added`));
     return process.exit(0);
@@ -70,17 +84,34 @@ cli
     }
 
     console.log(bold("Saved snapshots:"));
-    for (let config of configs) {
-      console.log(" -" + config.name + `: ${config.path}`)
+    const groupedConfigs = configs.reduce((groups: any, config) => {
+      if (groups[config.name]) {
+        groups[config.name].push(config.path);
+      } else {
+        groups[config.name] = [config.path];
+      }
+      return groups;
+    }, {});
+
+    for (const name in groupedConfigs) {
+      console.log(` - ${underline(name)}: ${groupedConfigs[name].join(', ')}`);
     }
+
     return process.exit(0);
   });
 
 cli
-  .command('remove <name>')
+  .command('remove [name]')
   .description('remove a snapshot')
-  .action((name: string) => {
+  .option('-a, --all', 'remove all snapshots')
+  .action((name: string, options?) => {
     const configs = loadSnapshots();
+    if (options) {
+      configs.length = 0
+      saveSnapshots(configs)
+      console.log(bold(`All snapshots were removed`));
+      return process.exit(0);
+    }
     const matchingConfigs = configs.filter(config => config.name === name);
 
     if (matchingConfigs.length === 0) {
@@ -94,28 +125,42 @@ cli
     return process.exit(0);
   });
 
-cli
+  cli
   .command('switch <name>')
   .description('switch between')
   .action((name: string) => {
     const configs = loadSnapshots();
-    const matchingConfigs = configs.filter(config => config.name === name);
+    let hasActiveSnapshot = false;
+
+    const matchingConfigs = configs.filter(config => {
+      if (config.name === name) {
+        hasActiveSnapshot = config.active;
+        return true;
+      }
+      return false;
+    });
 
     if (matchingConfigs.length === 0) {
       console.error(red(`Snapshot "${name}" not found`));
       return process.exit(1);
     }
 
-    for (let config of matchingConfigs) {
+    if (hasActiveSnapshot) {
+      console.log(bold(`Snapshot "${name}" is already in use`));
+      return process.exit(0);
+    }
+
+    for (const config of configs) {
+      config.active = config.name === name;
       fs.writeFileSync(config.path, config.data);
     }
+
+    saveSnapshots(configs);
     console.log(`${bold(`Switched to snapshot ${name}`)}\n${bold('Files affected:')}`);
     for (const config of matchingConfigs) {
-        console.log(`  - ${config.path}`);
+      console.log(`  - ${config.path}`);
     }
-    console.log('');
     return process.exit(0);
-
-  })
+  });
 
 cli.parse()
