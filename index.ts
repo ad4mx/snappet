@@ -3,9 +3,9 @@ import { Command } from "commander";
 import fs from "fs";
 import path from "path";
 import { bold, red, underline } from "colorette";
-
+// error handling: writing to/ reading from  a file
 const cli = new Command();
-const SNAPSHOT_FILE = path.resolve(__dirname, "../snapshots.json");
+const SNAPSHOT_FILE = path.resolve(__dirname, "snapshots.json");
 
 interface Config {
   name: string;
@@ -33,7 +33,7 @@ function findSnapshotByName(name: string, configs: Config[]): Config | undefined
 
 cli
   .name("snappet")
-  .version("0.1.0")
+  .version("0.0.1")
   .description("store, manage and switch between your config files easily")
   .showSuggestionAfterError(true);
 
@@ -109,20 +109,19 @@ cli
         console.error(red(`Snapshot "${name}" not found`));
         return process.exit(1);
       }
-      const newConfigs = configs.filter((config) => config.name !== name);
-      saveSnapshots(newConfigs);
+      const remainingConfigs = configs.filter((config) => config.name !== name);
+      saveSnapshots(remainingConfigs);
       console.log(bold(`Snapshot ${name} was removed`));
     }
     return process.exit(0);
   });
 
-cli
+  cli
   .command("switch <name>")
   .description("switch between snapshots")
   .action((name: string) => {
     const configs = loadSnapshots();
     let hasActiveSnapshot = false;
-
     const matchingConfigs = configs.filter((config) => {
       if (config.name === name) {
         hasActiveSnapshot = config.active;
@@ -135,21 +134,22 @@ cli
       return process.exit(1);
     }
     if (hasActiveSnapshot) {
-      console.log(bold(`Snapshot "${name}" is already in use`));
+      console.log(red(`Snapshot "${name}" is already in use`));
       return process.exit(0);
     }
-    for (const config of configs) {
-      config.active = config.name === name;
-      fs.writeFileSync(config.path, config.data);
-    }
+    configs.forEach((config) => (config.active = config.name === name));
     saveSnapshots(configs);
-    console.log(
-      `${bold(`Switched to snapshot ${name}`)}\n${bold("Files affected:")}`
-    );
+    for (const config of configs) {
+      if (config.name === name) {
+          fs.writeFileSync(config.path, config.data, "utf-8");
+          console.log(bold(`Updated file: ${config.path}`));
+      }
+    }
+    console.log(`${bold(`Switched to snapshot ${name}`)}\n${bold("Files affected:")}`);
     for (const config of matchingConfigs) {
       console.log(`  - ${config.path}`);
     }
-    console.log(bold("For changes to take effect, restart the terminal"));
+    console.log(bold("For any cosmetic changes to take effect, restart the terminal"));
     return process.exit(0);
   });
 

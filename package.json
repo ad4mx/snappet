@@ -1,14 +1,16 @@
 {
   "name": "snappet",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "store, manage and switch between your config files easily",
   "main": "index.js",
-  "scripts": {
-    "start": "npx nodemon"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ad4mx/snappet"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "bin": "index.js",
+  "keywords": ["cli", "config", "tool", "configuration", "terminal", "console", "command-line"],
+  "author": "ad4mx",
+  "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
