@@ -1,14 +1,14 @@
 # snappet
 > store, manage and switch between your config files easily
 
-## 🛠️ Install
+## 🔨 Install
 You can install `snappet` either through `npm` or `npx`.
 
-```bash
+```properties
 $ npm i snappet
 ```
 
-```bash
+```properties
 $ npx snappet <command> [options]
 ```
 
@@ -20,17 +20,17 @@ Please keep in mind that `npm` versions below version 16 are not tested and supp
 
 ### Add
 To get started, add a snapshot with the `add` command:
-```bash
+```console
 $ snappet add myOldConfig utils.lua
 ```
 You can add more than one filepath:
-```bash
+```console
 $ snappet add myNewConfig plugins.lua utils.lua
 ```
 `snappet` takes the current state of those files and saves them locally.
 ### List
 In order to see all your saved snapshots, use the `list` command:
-```bash
+```console
 $ snappet list
 Saved snapshots:
     - myOldConfig: utils.lua
@@ -38,7 +38,7 @@ Saved snapshots:
 ```
 ### Switch
 If you want to switch between snapshots, you can use the `switch` command:
-```bash
+```console
 $ snappet switch myOldConfig
 Switched to myOldConfig
   Files affected:
@@ -48,12 +48,12 @@ Switching snapshots rewrites files to the saved state of that snapshot.
 
 ### Remove
 In case you want to remove a snapshot, use the `remove` command:
-```bash
+```console
 $ snappet remove myNewConfig
 ```
 You can also remove all snapshots with the `--all` flag.
 
-```bash
+```console
 $ snappet remove --all
 ```
 
