@@ -2,13 +2,13 @@
   "name": "snappet",
   "version": "0.0.1",
   "description": "store, manage and switch between your config files easily",
-  "main": "index.js",
+  "main": "index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/ad4mx/snappet"
   },
-  "scripts": { "test": "ts-node index.ts -h" },
-  "bin": "index.js",
+  "scripts": { "test": "ts-node index.ts -h && ts-node index.ts list" },
+  "bin": "index.ts",
   "keywords": ["cli", "config", "tool", "configuration", "terminal", "console", "command-line"],
   "author": "ad4mx",
   "license": "MIT",
