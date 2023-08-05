@@ -1,0 +1,12 @@
+readme changes:
+- 'readme.md'
+
+core:
+- 'index.ts'
+
+configuration:
+- 'tsconfig.json'
+- 'package.json'
+
+repo:
+- '*'
