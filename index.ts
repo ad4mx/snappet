@@ -3,7 +3,6 @@ import { Command } from "commander";
 import fs from "fs";
 import path from "path";
 import { bold, red, underline } from "colorette";
-// error handling: writing to/ reading from  a file
 const cli = new Command();
 const SNAPSHOT_FILE = path.resolve(__dirname, "snapshots.json");
 
@@ -24,7 +23,12 @@ function loadSnapshots(): Config[] {
 }
 
 function saveSnapshots(configs: Config[]) {
-  fs.writeFileSync(SNAPSHOT_FILE, JSON.stringify(configs, null, 2));
+  try {
+    fs.writeFileSync(SNAPSHOT_FILE, JSON.stringify(configs, null, 2));
+  } catch {
+    console.error(red('An error occured while saving a snapshot'))
+    process.exit(1)
+  }
 }
 
 function findSnapshotByName(name: string, configs: Config[]): Config | undefined {
@@ -53,9 +57,7 @@ cli
         const newFile: Config = {name, data: content, path: path.resolve(filepath), active: true};
         newConfigs.push(newFile);
       } catch {
-        console.error(
-          red("A file couldn't be found - check if your filepath is valid")
-        );
+        console.error(red(`File ${filepath} couldn't be found - check if the filepath is valid`));
         return process.exit(1);
       }
     }
@@ -86,9 +88,7 @@ cli
         return groups;
       }, {});
       for (const name in groupedConfigs) {
-        console.log(
-          ` - ${underline(name)}: ${groupedConfigs[name].join(", ")}`
-        );
+        console.log(` - ${underline(name)}: ${groupedConfigs[name].join(", ")}`);
       }
     }
     return process.exit(0);
@@ -141,8 +141,14 @@ cli
     saveSnapshots(configs);
     for (const config of configs) {
       if (config.name === name) {
+        try {
           fs.writeFileSync(config.path, config.data, "utf-8");
           console.log(bold(`Updated file: ${config.path}`));
+        } catch {
+          console.error(red(`There was an error while overwriting file ${config.path}`))
+          process.exit(1)
+        }
+          
       }
     }
     console.log(`${bold(`Switched to snapshot ${name}`)}\n${bold("Files affected:")}`);
