@@ -7,12 +7,12 @@
     "type": "git",
     "url": "https://github.com/ad4mx/snappet"
   },
+  "scripts": { "test": "npx ts-node --esm index.ts -h" },
   "bin": "index.js",
   "keywords": ["cli", "config", "tool", "configuration", "terminal", "console", "command-line"],
   "author": "ad4mx",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
