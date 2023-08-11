@@ -1,4 +1,4 @@
-# snappet
+# snappet &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ad4mx/snappet/blob/main/LICENSE) [![Build](https://github.com/ad4mx/snappet/actions/workflows/node.js.yml/badge.svg)](https://github.com/ad4mx/snappet/actions/workflows/node.js.yml) [![npm version](https://img.shields.io/npm/v/snappet.svg?style=flat)](https://www.npmjs.com/package/snappet) [![Downloads](https://img.shields.io/npm/dm/snappet.svg)](https://www.npmjs.com/package/snappet)
 > store, manage and switch between your config settings easily
 
 ## 🔨 Install
