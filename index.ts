@@ -2,8 +2,11 @@
 import { Command } from "commander";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from 'url';
 import { bold, red, underline } from "colorette";
 const cli = new Command();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const SNAPSHOT_FILE = path.resolve(__dirname, "snapshots.json");
 
 interface Config {

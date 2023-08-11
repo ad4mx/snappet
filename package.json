@@ -2,22 +2,34 @@
   "name": "snappet",
   "version": "0.0.1",
   "description": "store, manage and switch between your config files easily",
-  "main": "index.ts",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ad4mx/snappet"
+    "url": "git+https://github.com/ad4mx/snappet.git"
   },
-  "scripts": { "test": "ts-node index.ts -h && ts-node index.ts list" },
-  "bin": "index.ts",
-  "keywords": ["cli", "config", "tool", "configuration", "terminal", "console", "command-line"],
+  "scripts": {
+    "test": "tsx index.ts -h && tsx index.ts list"
+  },
+  "bin": {
+    "snappet": "dist/index.js"
+  },
+  "keywords": [
+    "cli",
+    "config",
+    "tool",
+    "configuration",
+    "terminal",
+    "console",
+    "command-line"
+  ],
+  "type": "module",
   "author": "ad4mx",
   "license": "MIT",
   "devDependencies": {
-    "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@types/commander": "^2.12.2",
     "@types/node": "^18.16.3",
     "colorette": "^2.0.20",
     "commander": "^10.0.1"
