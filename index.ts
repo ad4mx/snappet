@@ -98,7 +98,7 @@ cli
   .command("remove [name]")
   .description("remove a snapshot")
   .option("-a, --all", "remove all snapshots")
-  .action((name: string, options?: { all?: boolean }) => {
+  .action((name: string, options?: { all: boolean }) => {
     const configs = loadSnapshots();
     if (options?.all) {
       saveSnapshots([]);

@@ -1,36 +1,36 @@
 # snappet
-> store, manage and switch between your config files easily
+> store, manage and switch between your config settings easily
 
 ## 🔨 Install
 You can install `snappet` either through `npm` or `npx`.
 
-```properties
+```bash
 $ npm i snappet
 ```
 
-```properties
+```bash
 $ npx snappet <command> [options]
 ```
 
 Please keep in mind that `npm` versions below version 16 are not tested and supported.
 
-## 💡 Usage
+## ⚡ Usage
 
-`snappet` is based on storing and managing saved "snapshots" of your files. A "snapshot" is a saved state of a file stored locally that can be accessed at any time. This can be particularly useful for configuration files.
+`snappet` is based on storing and managing saved snapshots of your files - saved states of a file stored locally that can be accessed at any time. This approach can be particularly useful for managing config files.
 
 ### Add
 To get started, add a snapshot with the `add` command:
-```console
+```bash
 $ snappet add myOldConfig utils.lua
 ```
 You can add more than one filepath:
-```console
+```bash
 $ snappet add myNewConfig plugins.lua utils.lua
 ```
 `snappet` takes the current state of those files and saves them locally.
 ### List
 In order to see all your saved snapshots, use the `list` command:
-```console
+```bash
 $ snappet list
 Saved snapshots:
     - myOldConfig: utils.lua
@@ -38,31 +38,33 @@ Saved snapshots:
 ```
 ### Switch
 If you want to switch between snapshots, you can use the `switch` command:
-```console
+```bash
 $ snappet switch myOldConfig
 Switched to myOldConfig
   Files affected:
     - utils.lua
 ```
 Switching snapshots rewrites files to the saved state of that snapshot.
+For any cosmetic changes to take place, a terminal restart is required.
 
 ### Remove
 In case you want to remove a snapshot, use the `remove` command:
-```console
+```bash
 $ snappet remove myNewConfig
 ```
 You can also remove all snapshots with the `--all` flag.
 
-```console
+```bash
 $ snappet remove --all
 ```
 
-## ❗ Note
-Please be aware that `snappet` is not designed for creating backups of important files. All data is saved in the `snapshots.json` file, making it unsuitable for reliable backup purposes.
+## ❗ Disclaimer
+
+Please be aware that `snappet` is not designed as a backup solution for important files and documents. All data is saved in a local `snapshots.json` file.
 
 ## 🚧 Contributing
 
-Any contributions to this project are appreciated. If you have any ideas/suggestions/bug fixes, please open an [issue](https://github.com/ad4mx/snappet/issues) or a [pull request](https://github.com/ad4mx/snappet/pulls). If you like the project, mind [starring it](https://github.com/ad4mx/snappet) on Github.
+Any contributions to this project are appreciated. If you have any ideas/suggestions/bug fixes, please open an [issue](https://github.com/ad4mx/snappet/issues) or a [pull request](https://github.com/ad4mx/snappet/pulls). If you like the project, mind [giving it a star](https://github.com/ad4mx/snappet) on Github.
 
 ## 📑 License
 
