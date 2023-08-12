@@ -146,7 +146,8 @@ cli
       if (config.name === name) {
         try {
           fs.writeFileSync(config.path, config.data, "utf-8");
-          console.log(bold(`Updated file: ${config.path}`));
+          const fileName = path.basename(config.path);
+          console.log(bold(`Updated file: ${fileName}`));
         } catch {
           console.error(red(`There was an error while overwriting file ${config.path}`))
           process.exit(1)
@@ -156,7 +157,8 @@ cli
     }
     console.log(`${bold(`Switched to snapshot ${name}`)}\n${bold("Files affected:")}`);
     for (const config of matchingConfigs) {
-      console.log(`  - ${config.path}`);
+      const fileName = path.basename(config.path);
+      console.log(`  - ${fileName}`);
     }
     console.log(bold("For any cosmetic changes to take effect, restart the terminal"));
     return process.exit(0);

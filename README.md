@@ -1,5 +1,9 @@
-# snappet   [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ad4mx/snappet/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/snappet.svg?style=flat)](https://www.npmjs.com/package/snappet) [![Build](https://github.com/ad4mx/snappet/actions/workflows/node.js.yml/badge.svg)](https://github.com/ad4mx/snappet/actions/workflows/node.js.yml)[![Downloads](https://img.shields.io/npm/dm/snappet.svg)](https://www.npmjs.com/package/snappet)
+# snappet 
 > store, manage and switch between your config settings easily
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ad4mx/snappet/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/snappet.svg?style=flat)](https://www.npmjs.com/package/snappet) [![Build](https://github.com/ad4mx/snappet/actions/workflows/node.js.yml/badge.svg)](https://github.com/ad4mx/snappet/actions/workflows/node.js.yml) [![Downloads](https://img.shields.io/npm/dm/snappet.svg)](https://www.npmjs.com/package/snappet)
+
+![Example](./examples/demo.gif)
 
 ## 🔨 Install
 You can install `snappet` through npx:

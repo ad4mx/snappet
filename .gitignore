@@ -13,4 +13,5 @@ node_modules/
 jspm_packages/
 .npm
 .env
+demo.tape
 /snapshots.json
