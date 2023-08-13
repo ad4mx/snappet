@@ -1,6 +1,6 @@
 {
   "name": "snappet",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "store, manage and switch between your config files easily",
   "main": "index.js",
   "repository": {
